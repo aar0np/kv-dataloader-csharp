@@ -4,11 +4,8 @@ using CsvHelper;
 using kv_dataloader_csharp.models;
 using Newtonsoft.Json;
 using System.Globalization;
-using System.IO;
-using System.Net.Http.Headers;
 using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 public class KVDataLoader
 {
@@ -116,14 +113,14 @@ public class KVDataLoader
         return string.Empty;
     }
 
-    private static Cassandra.ISession GetCQLSession()
+    private static ISession GetCQLSession()
     {
         string? _astraDbApplicationToken = System.Environment.GetEnvironmentVariable("ASTRA_DB_APPLICATION_TOKEN");
         string? _astraDbKeyspace = System.Environment.GetEnvironmentVariable("ASTRA_DB_KEYSPACE");
         string? _secureBundleLocation = System.Environment.GetEnvironmentVariable("ASTRA_DB_SECURE_BUNDLE_LOCATION");
         MappingConfiguration.Global.Define<MappingHelper>();
 
-        Cassandra.ISession session =
+        ISession session =
             Cluster.Builder()
                    .WithCloudSecureConnectionBundle(_secureBundleLocation)
                    .WithCredentials("token", _astraDbApplicationToken)
